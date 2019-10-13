@@ -9,6 +9,10 @@ import shequ.wqy.community.dto.AccessTokenDTO;
 import shequ.wqy.community.dto.GithubUser;
 import shequ.wqy.community.provider.GithubProvider;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 public class AuthorizeController {
 
@@ -23,10 +27,9 @@ public class AuthorizeController {
     private String redirectUri;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam(name="code") String code,
-                           @RequestParam(name="state") String state){
-
-
+    public <response> String callback(@RequestParam(name="code") String code,
+                                      @RequestParam(name="state") String state,
+                            HttpServletRequest request){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -35,8 +38,15 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser user = githubProvider.getUser(accessToken);
-        System.out.println("user="+user.getId());
-        System.out.println("user="+user.getName());
-        return "index";
+
+        if(user != null){
+            //登录成功，返回登录界面，将user写进session和cookie
+            request.getSession().setAttribute("user",user);
+            return "redirect:/";
+        }else {
+            //登录失败，返回登录页面,重新登录
+            return "redirect:/";
+        }
+
     }
 }
