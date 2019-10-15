@@ -21,17 +21,20 @@ public class IndexController {
     public String Index(HttpServletRequest request){
 
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if("token".equals(cookie.getName())){
-                String token = cookie.getValue();
-                User user = userMapper.findByToken(token);
-                if(user != null){
-                    //表中存在当前token，返回登录界面，将user写进session和cookie
-                    request.getSession().setAttribute("user",user);
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if("token".equals(cookie.getName())){
+                    String token = cookie.getValue();
+                    User user = userMapper.findByToken(token);
+                    if(user != null){
+                        //表中存在当前token，返回登录界面，将user写进session和cookie
+                        request.getSession().setAttribute("user",user);
+                    }
+                    break;
                 }
-                break;
             }
         }
+
 
         return "index";
     }
