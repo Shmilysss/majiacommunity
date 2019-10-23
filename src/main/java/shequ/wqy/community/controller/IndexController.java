@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import shequ.wqy.community.dto.QuestionDTO;
-import shequ.wqy.community.mapper.QuestionMapper;
 import shequ.wqy.community.mapper.UserMapper;
-import shequ.wqy.community.model.Question;
 import shequ.wqy.community.model.User;
 import shequ.wqy.community.service.QuestionService;
 
