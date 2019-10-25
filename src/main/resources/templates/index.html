@@ -52,7 +52,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
             <hr>
-            <div class="media" th:each="question:${questions}">
+            <div class="media" th:each="question:${paginations.questions}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object" th:src="${question.user.avatarUrl}">
@@ -67,6 +67,35 @@
                             th:text="${#dates.format(question.gmtCreate, 'mm hh dd MMMM yyyy')}"></span></span>
                 </div>
             </div>
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${paginations.showFirstPage}">
+                        <a th:href="@{/(page=1)}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginations.showPrevious}">
+                        <a th:href="@{/(page=${paginations.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page:${paginations.pages}" th:class="${paginations.page==page}? 'active' : ''">
+                        <a th:href="@{/(page=${page})}" th:text="${page}">
+
+                    </a>
+                    </li>
+                    <li th:if="${paginations.showNext}">
+                        <a th:href="@{/(page=${paginations.page + 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginations.showEndPage}">
+                        <a th:href="@{/(page=${paginations.totalPage})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热门话题</h3>
