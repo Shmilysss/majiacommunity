@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import shequ.wqy.community.dto.PaginationDTO;
 import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.User;
 import shequ.wqy.community.service.QuestionService;
@@ -53,7 +54,8 @@ public class ProfileController {
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","最新回复");
         }
-        //questionService.list(user.getId(),page,size);
+        PaginationDTO paginationDTO = questionService.listByUserId(user.getId(), page, size);
+        model.addAttribute("paginations", paginationDTO);
         return "profile";
     }
 }
