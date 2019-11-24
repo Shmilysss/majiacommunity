@@ -15,7 +15,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
-
+/**
+ * Author: wanqiangying
+ * Date: 2019/10/24 20:01
+ * Content：
+ */
 @Controller
 public class AuthorizeController {
 
