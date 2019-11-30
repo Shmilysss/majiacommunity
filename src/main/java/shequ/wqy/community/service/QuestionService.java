@@ -99,8 +99,7 @@ public class QuestionService {
     }
 
     public void createOrUpdate(Question question) {
-        Question dbQuestion = questionMapper.getById(question.getId());
-        if(dbQuestion.getId() == null ){//新增
+        if(question.getId() == null ){//新增
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
             questionMapper.create(question);
