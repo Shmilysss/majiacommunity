@@ -6,10 +6,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.User;
+import shequ.wqy.community.model.UserExample;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Service
 public class SessionInterceptor implements HandlerInterceptor {
@@ -24,10 +26,14 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
-                    User user = userMapper.findByToken(token);
-                    if (user != null) {
+                    UserExample userExample = new UserExample();
+                    userExample.createCriteria()
+                            .andTokenEqualTo(token);
+                    List<User> userList = userMapper.selectByExample(userExample);
+//                    User user = userMapper.findByToken(token);
+                    if (userList.size() != 0) {
                         //表中存在当前token，返回登录界面，将user写进session和cookie
-                        request.getSession().setAttribute("user", user);
+                        request.getSession().setAttribute("user", userList.get(0));
                     }
                     break;
                 }
