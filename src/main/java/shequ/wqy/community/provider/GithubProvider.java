@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 import shequ.wqy.community.dto.AccessTokenDTO;
 import shequ.wqy.community.dto.GithubUser;
 
-import java.io.IOException;
-
 @Component
 public class GithubProvider {
     public String getAccessToken(AccessTokenDTO accessTokenDTO){

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import shequ.wqy.community.dto.PaginationDTO;
-import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.User;
 import shequ.wqy.community.service.QuestionService;
 
