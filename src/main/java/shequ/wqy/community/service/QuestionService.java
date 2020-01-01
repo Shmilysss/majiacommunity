@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shequ.wqy.community.dto.PaginationDTO;
 import shequ.wqy.community.dto.QuestionDTO;
+import shequ.wqy.community.mapper.QuestionExMapper;
 import shequ.wqy.community.mapper.QuestionMapper;
 import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.Question;
@@ -23,6 +24,9 @@ public class QuestionService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private QuestionExMapper questionExMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
 
@@ -128,12 +132,10 @@ public class QuestionService {
     }
 
     public void updView(int id){
-        Question question = questionMapper.selectByPrimaryKey(id);
-        Question updQuestion = new Question();
-        updQuestion.setViewCount(question.getViewCount() + 1);
-        QuestionExample questionExample = new QuestionExample();
-        questionExample.createCriteria()
-                .andIdEqualTo(id);
-        questionMapper.updateByExampleSelective(updQuestion, questionExample);
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+        questionExMapper.updateView(question);
+
     }
 }
