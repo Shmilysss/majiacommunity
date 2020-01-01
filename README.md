@@ -12,8 +12,15 @@
 源代码管理器 git
 增加登录功能
 
+##常用命令
+
+ mvn flyway:migrate   //通过sql同步数据库
+ mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate  //更新map配置文件
+ 
+
 
 ##IDEA快捷键
+
 ctr+alt+o			--自动移除多余的映射
 ctrl+d			--复制选中的内容出现在下方
 ctrl+shift+n		--快速打开资源
