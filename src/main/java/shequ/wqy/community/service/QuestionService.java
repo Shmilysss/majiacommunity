@@ -126,4 +126,14 @@ public class QuestionService {
             questionMapper.updateByExampleSelective(updQuestion, example);
         }
     }
+
+    public void updView(int id){
+        Question question = questionMapper.selectByPrimaryKey(id);
+        Question updQuestion = new Question();
+        updQuestion.setViewCount(question.getViewCount() + 1);
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.createCriteria()
+                .andIdEqualTo(id);
+        questionMapper.updateByExampleSelective(updQuestion, questionExample);
+    }
 }
