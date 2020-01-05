@@ -10,6 +10,9 @@ import shequ.wqy.community.dto.CommentDTO;
 import shequ.wqy.community.mapper.CommentMapper;
 import shequ.wqy.community.model.Comment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Author: wanqiangying
  * Date: 2020/1/1 22:24
@@ -33,6 +36,8 @@ public class CommentController {
         comment.setCommentator(1);
         comment.setLikeCount(0L);
         commentMapper.insert(comment);
+        Map<Object,Object> objectObjectMap =  new HashMap<>();
+        objectObjectMap.put("message","成功");
         return null;
     }
 }
