@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shequ.wqy.community.dto.CommentDTO;
-import shequ.wqy.community.mapper.CommentMapper;
+import shequ.wqy.community.dto.ResultDTO;
 import shequ.wqy.community.model.Comment;
+import shequ.wqy.community.model.User;
+import shequ.wqy.community.service.CommentService;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Author: wanqiangying
@@ -22,22 +23,25 @@ import java.util.Map;
 public class CommentController {
 
     @Autowired
-    private CommentMapper commentMapper;
+    private CommentService commentService;
 
     @ResponseBody
-    @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO){
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public Object post(@RequestBody CommentDTO commentDTO,
+                       HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return ResultDTO.errorOf(1001, "未登录，不能进行操作");
+        }
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
         comment.setContent(commentDTO.getContent());
         comment.setType(commentDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(System.currentTimeMillis());
-        comment.setCommentator(1);
+        comment.setCommentator(user.getId());
         comment.setLikeCount(0L);
-        commentMapper.insert(comment);
-        Map<Object,Object> objectObjectMap =  new HashMap<>();
-        objectObjectMap.put("message","成功");
-        return null;
+        commentService.insert(comment);
+        return ResultDTO.okOf();
     }
 }
