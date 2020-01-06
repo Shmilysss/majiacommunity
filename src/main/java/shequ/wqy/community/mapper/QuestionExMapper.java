@@ -4,4 +4,6 @@ import shequ.wqy.community.model.Question;
 
 public interface QuestionExMapper {
     int updateView(Question record);
+
+    int incCommentCount(Question question);
 }

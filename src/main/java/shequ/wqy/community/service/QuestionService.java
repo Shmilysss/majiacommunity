@@ -62,7 +62,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public PaginationDTO listByUserId(Integer userId, Integer page, Integer size) {
+    public PaginationDTO listByUserId(Long userId, Integer page, Integer size) {
 //        Integer totalCount = questionMapper.countByUserId(userId);
         QuestionExample questionExample = new QuestionExample();
         questionExample.createCriteria()
@@ -103,7 +103,7 @@ public class QuestionService {
         return paginationDTO;
     }
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
@@ -131,7 +131,7 @@ public class QuestionService {
         }
     }
 
-    public void updView(int id){
+    public void updView(Long id){
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);
