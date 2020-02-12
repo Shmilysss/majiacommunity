@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shequ.wqy.community.dto.PaginationDTO;
 import shequ.wqy.community.dto.QuestionDTO;
+import shequ.wqy.community.exception.CustomizeErrorCode;
+import shequ.wqy.community.exception.CustomizeException;
 import shequ.wqy.community.mapper.QuestionExMapper;
 import shequ.wqy.community.mapper.QuestionMapper;
 import shequ.wqy.community.mapper.UserMapper;
@@ -105,6 +107,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Long id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
         User user = userMapper.selectByPrimaryKey(question.getCreator());
@@ -127,7 +132,10 @@ public class QuestionService {
             QuestionExample example = new QuestionExample();
             example.createCriteria()
                     .andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updQuestion, example);
+            int upd = questionMapper.updateByExampleSelective(updQuestion, example);
+            if(upd != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 
