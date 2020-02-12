@@ -31,7 +31,7 @@ public class CommentController {
                        HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return ResultDTO.errorOf(1001, "未登录，不能进行操作");
+            return ResultDTO.errorOf(2002, "未登录，不能进行评论，请先登录");
         }
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());

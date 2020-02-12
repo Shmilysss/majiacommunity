@@ -29,7 +29,7 @@ public class CommentService {
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == 0 || comment.getParentId() == null) {
-//            throw  Exception;
+            return ;
         }
         if(comment.getType() == 1000){
             //回复评论
