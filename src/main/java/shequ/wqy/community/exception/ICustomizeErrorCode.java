@@ -7,4 +7,5 @@ package shequ.wqy.community.exception;
  */
 public interface ICustomizeErrorCode {
     String getMessage();
+    Integer getCode();
 }

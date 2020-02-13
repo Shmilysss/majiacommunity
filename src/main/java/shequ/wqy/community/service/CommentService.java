@@ -3,6 +3,8 @@ package shequ.wqy.community.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shequ.wqy.community.exception.CustomizeErrorCode;
+import shequ.wqy.community.exception.CustomizeException;
 import shequ.wqy.community.mapper.CommentMapper;
 import shequ.wqy.community.mapper.QuestionExMapper;
 import shequ.wqy.community.mapper.QuestionMapper;
@@ -29,7 +31,7 @@ public class CommentService {
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == 0 || comment.getParentId() == null) {
-            //return ;
+            throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
         if(comment.getType() == 1000){
             //回复评论

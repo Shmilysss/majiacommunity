@@ -1,6 +1,8 @@
 package shequ.wqy.community.dto;
 
 import lombok.Data;
+import shequ.wqy.community.exception.CustomizeErrorCode;
+import shequ.wqy.community.exception.CustomizeException;
 
 /**
  * Author: wanqiangying
@@ -20,10 +22,16 @@ public class ResultDTO {
         return resultDTO;
     }
 
+    public static Object errorOf(CustomizeErrorCode errorCode) {
+        return errorOf(errorCode.getCode(),errorCode.getMessage());
+    }
+    public static ResultDTO errorOf(CustomizeException e) {
+        return errorOf(e.getCode(), e.getMessage());
+    }
     public static ResultDTO okOf(){
         ResultDTO resultDTO = new ResultDTO();
-        resultDTO.setCode(1000);
-        resultDTO.setMessage("success!");
+        resultDTO.setCode(200);
+        resultDTO.setMessage("请求成功!");
         return resultDTO;
     }
 }

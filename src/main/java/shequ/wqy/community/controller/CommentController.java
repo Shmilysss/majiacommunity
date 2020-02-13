@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shequ.wqy.community.dto.CommentDTO;
 import shequ.wqy.community.dto.ResultDTO;
+import shequ.wqy.community.exception.CustomizeErrorCode;
+import shequ.wqy.community.exception.CustomizeException;
 import shequ.wqy.community.model.Comment;
 import shequ.wqy.community.model.User;
 import shequ.wqy.community.service.CommentService;
@@ -31,7 +33,7 @@ public class CommentController {
                        HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            return ResultDTO.errorOf(2002, "未登录，不能进行评论，请先登录");
+            return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
         Comment comment = new Comment();
         comment.setParentId(commentDTO.getParentId());
