@@ -43,10 +43,16 @@ public class CommentService {
             if(dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
-            commentMapper.insert(dbComment);
+            commentMapper.insert(comment);
         }else{
             //回复问题
-            questionMapper.selectByPrimaryKey(comment.getParentId());
+            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
+            if(question == null){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
+            commentMapper.insert(comment);
+            question.setCommentCount(1);
+            questionExMapper.incCommentCount(question);
         }
     }
 }

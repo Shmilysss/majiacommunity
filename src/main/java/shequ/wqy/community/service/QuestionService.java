@@ -121,6 +121,9 @@ public class QuestionService {
         if (question.getId() == null) {//新增
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setViewCount(0);
             questionMapper.insert(question);
         } else {//更新
             question.setGmtModified(question.getGmtCreate());
