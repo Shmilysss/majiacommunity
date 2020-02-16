@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/community.css">
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="~{navigation :: nav}"></div>
@@ -33,7 +34,7 @@
             </div>
 
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment_section">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h4>发起人</h4>
                     <div class="media-left">
@@ -48,8 +49,9 @@
 
                     </div>
                 </div>
-                <textarea class="form-control comment" rows="7"></textarea>
-                <button type="button" class="btn btn-success btn_comment">回复</button>
+                <input type="hidden" id="question_id" th:value="${question.id}">
+                <textarea class="form-control comment" rows="7" id="question_content"></textarea>
+                <button type="button" class="btn btn-success btn_comment" onclick="postComment()">回复</button>
             </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
