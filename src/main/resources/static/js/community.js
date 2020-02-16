@@ -14,7 +14,7 @@ function postComment() {
             if (response.code == 200) {
                 $("#comment_section").hide();
             } else {
-                alert("response=="+response);
+                alert(response.message);
             }
         },
         datatype: "json"
