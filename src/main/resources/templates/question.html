@@ -38,25 +38,26 @@
                 <span th:text="${question.commentCount}"></span> 个回复
             </h4>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 question_comment_sp">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:each="comment:${comments}">
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object img-rounded" th:src="${question.user.avatarUrl}">
+                            <img class="media-object img-rounded" th:src="${comment.user.avatarUrl}">
                         </a>
                     </div>
                     <div class="media-body">
                         <h5 class="media-heading">
-                            <span th:text="${question.user.getName()}"></span>
+                            <span th:text="${comment.user.getName()}"></span>
                         </h5>
-                        <div>回复的内容。。。</div>
+                        <div th:text="${comment.content}"></div>
                         <div class="menu">
                             <span class="glyphicon glyphicon-heart-empty icon"></span>
                             <span class="glyphicon glyphicon-comment icon"></span>
-                            <span class="pull-right" th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}"></span>
                         </div>
                     </div>
                 </div>
+                <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12 question_comment_sp">
             </div>
             <!--回复框-->
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
