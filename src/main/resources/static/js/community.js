@@ -1,3 +1,6 @@
+/**
+ * 发送评论
+ */
 function postComment() {
     var questionId = $("#question_id").val();
     var content = $("#question_content").val();
@@ -29,4 +32,12 @@ function postComment() {
         },
         datatype: "json"
     });
+}
+
+/**
+ * 展示二级评论
+ */
+function collapseComment(Obj) {
+    var id = Obj.getAttribute("data-id");
+    $("#comment-"+id).toggleClass("in");
 }
