@@ -1,5 +1,6 @@
 package shequ.wqy.community.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import shequ.wqy.community.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionService {
@@ -47,7 +49,9 @@ public class QuestionService {
             page = totalPage;
         }
         Integer offset = size * (page - 1);
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(new QuestionExample(), new RowBounds(offset, size));
+        QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
 
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -148,5 +152,23 @@ public class QuestionService {
         question.setViewCount(1);
         questionExMapper.updateView(question);
 
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        if(StringUtils.isBlank(questionDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String tags = questionDTO.getTag();
+        tags.replace("|",",");
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(tags);
+        List<Question> questions = questionExMapper.selectRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO dto = new QuestionDTO();
+            BeanUtils.copyProperties(q,dto);
+            return dto;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 }
