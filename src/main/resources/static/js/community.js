@@ -4,14 +4,24 @@
 function postComment() {
     var questionId = $("#question_id").val();
     var content = $("#question_content").val();
+    insertComment(questionId,1,content);
+}
+
+function secondComment(Obj) {
+    var commentId = Obj.getAttribute("data-id");
+    var content = $("#comment_"+commentId).val();
+    insertComment(commentId,2,content);
+}
+
+function insertComment(targetId,type,content){
     $.ajax({
         type: "POST",
         url: "/comment",
         contentType: "application/json",
         data: JSON.stringify({
-            "parentId": questionId,
+            "parentId": targetId,
             "content": content,
-            "type": 1
+            "type": type
         }),
         success: function (response) {
             if (response.code == 200) {
