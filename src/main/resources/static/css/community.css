@@ -50,8 +50,15 @@ body{
 .sub-comments .btn{
     margin:10px 0;
 }
-.question_comment_sp{
+.question-comment-sp{
     margin-top: 0;
+}
+.question-related{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
 }
 .menu {
     color:#999;
