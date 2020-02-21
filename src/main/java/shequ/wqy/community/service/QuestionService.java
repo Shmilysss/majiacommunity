@@ -159,10 +159,10 @@ public class QuestionService {
             return new ArrayList<>();
         }
         String tags = questionDTO.getTag();
-        tags.replace("|",",");
+        String tagsL = tags.replace(',','|');
         Question question = new Question();
         question.setId(questionDTO.getId());
-        question.setTag(tags);
+        question.setTag(tagsL);
         List<Question> questions = questionExMapper.selectRelated(question);
         List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
             QuestionDTO dto = new QuestionDTO();
