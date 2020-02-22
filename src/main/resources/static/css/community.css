@@ -9,6 +9,10 @@ body{
     float: right;
     margin-bottom: 15px;
 }
+.publish-tag-div{
+    display: none;
+    margin-top: 10px;
+}
 .media-object{
     width: 38px;
     height: 38px;

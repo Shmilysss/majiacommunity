@@ -51,3 +51,25 @@ function collapseComment(Obj) {
     var id = Obj.getAttribute("data-id");
     $("#comment-"+id).toggleClass("in");
 }
+
+/**
+ * 展示标签
+ */
+function showSelectTag(){
+    $("#select_tag").show();
+}
+
+/**
+ * 选择标签
+ */
+function selectTag(value) {
+    var previous = $("#tag").val();
+    if(previous.indexOf(value) > -1){
+        return;
+    }
+    if(previous){
+        $("#tag").val(previous + ','+value);
+    }else {
+        $("#tag").val(value);
+    }
+}
