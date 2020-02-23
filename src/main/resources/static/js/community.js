@@ -62,7 +62,8 @@ function showSelectTag(){
 /**
  * 选择标签
  */
-function selectTag(value) {
+function selectTag(e) {
+    var value = e.getAttribute("data-tag");
     var previous = $("#tag").val();
     if(previous.indexOf(value) > -1){
         return;
