@@ -23,13 +23,18 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading">
-                        <a th:href="@{'/question/'+${question.id}}" th:text="${question.title}"></a>
-                    </h4>
-                    <span><span th:text="${question.likeCount}"></span>人关注 • <span
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span>
+                        <span th:text="${question.likeCount}"></span>人关注 • <span
                             th:text="${question.commentCount}"></span> 个回复 • <span
                             th:text="${question.viewCount}"></span>次浏览 • <span
-                            th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}"></span></span>
+                            th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm:ss')}">
+                        </span> •
+                        <a th:href="@{'/publish/'+${question.id}}" class="community-menu"
+                           th:if="${session.user != null && session.user.id !=null}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+                        </a>
+                    </span>
                 </div>
             </div>
             <nav aria-label="Page navigation">
@@ -64,8 +69,10 @@
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group section">
-                <a href="/profile/questions" th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
-                <a href="/profile/replies" th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
+                <a href="/profile/questions"
+                   th:class="${section == 'questions'}? 'list-group-item active' : 'list-group-item'">我的问题</a>
+                <a href="/profile/replies"
+                   th:class="${section == 'replies'}? 'list-group-item active' : 'list-group-item'">
                     最新回复
                     <span class="badge">14</span>
                 </a>
