@@ -1,18 +1,22 @@
 package shequ.wqy.community.service;
 
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shequ.wqy.community.dto.NotificationDTO;
 import shequ.wqy.community.dto.PaginationDTO;
-import shequ.wqy.community.dto.QuestionDTO;
 import shequ.wqy.community.mapper.NotificationMapper;
 import shequ.wqy.community.mapper.UserMapper;
-import shequ.wqy.community.model.*;
+import shequ.wqy.community.model.Notification;
+import shequ.wqy.community.model.NotificationExample;
+import shequ.wqy.community.model.User;
+import shequ.wqy.community.model.UserExample;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Author: wanqiangying
@@ -51,17 +55,29 @@ public class NotificationService {
         NotificationExample example = new NotificationExample();
         example.createCriteria()
                 .andReceiverEqualTo(userId);
-        List<Notification> questions = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
-        List<NotificationDTO> notificationDTOS = new ArrayList<NotificationDTO>();
+        List<Notification> notifications = notificationMapper.selectByExampleWithRowbounds(example, new RowBounds(offset, size));
 
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
-        /*for (Notification notification : questions) {
+        if(notifications.size() == 0){
+            return paginationDTO;
+        }
+
+        Set<Long> disUserIds = notifications.stream().map(notify -> notify.getNotifier()).collect(Collectors.toSet());
+        List<Long> userIds = new ArrayList<>(disUserIds);
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andIdIn(userIds);
+        List<User> users = userMapper.selectByExample(userExample);
+        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(u -> u.getId(), u -> u));
+
+       /* for (Notification notification : questions) {
             User user = userMapper.selectByPrimaryKey(notification.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(notification, questionDTO);
             questionDTO.setUser(user);
             notificationDTOS.add(questionDTO);
         }*/
+        List<NotificationDTO> notificationDTOS = new ArrayList<NotificationDTO>();
         paginationDTO.setData(notificationDTOS);
         paginationDTO.setPagination(totalPage, page, size);
 
