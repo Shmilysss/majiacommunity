@@ -1,10 +1,12 @@
 package shequ.wqy.community.service;
 
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shequ.wqy.community.dto.NotificationDTO;
 import shequ.wqy.community.dto.PaginationDTO;
+import shequ.wqy.community.enums.NotificationTypeEnum;
 import shequ.wqy.community.mapper.NotificationMapper;
 import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.Notification;
@@ -28,9 +30,6 @@ public class NotificationService {
 
     @Autowired
     private NotificationMapper notificationMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     public PaginationDTO list(Long userId, Integer page, Integer size) {
 
@@ -62,25 +61,31 @@ public class NotificationService {
             return paginationDTO;
         }
 
-        Set<Long> disUserIds = notifications.stream().map(notify -> notify.getNotifier()).collect(Collectors.toSet());
-        List<Long> userIds = new ArrayList<>(disUserIds);
-        UserExample userExample = new UserExample();
-        userExample.createCriteria()
-                .andIdIn(userIds);
-        List<User> users = userMapper.selectByExample(userExample);
-        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(u -> u.getId(), u -> u));
+//        Set<Long> disUserIds = notifications.stream().map(notify -> notify.getNotifier()).collect(Collectors.toSet());
+//        List<Long> userIds = new ArrayList<>(disUserIds);
+//        UserExample userExample = new UserExample();
+//        userExample.createCriteria()
+//                .andIdIn(userIds);
+//        List<User> users = userMapper.selectByExample(userExample);
+//        Map<Long, User> userMap = users.stream().collect(Collectors.toMap(u -> u.getId(), u -> u));
 
-       /* for (Notification notification : questions) {
-            User user = userMapper.selectByPrimaryKey(notification.getCreator());
-            QuestionDTO questionDTO = new QuestionDTO();
-            BeanUtils.copyProperties(notification, questionDTO);
-            questionDTO.setUser(user);
-            notificationDTOS.add(questionDTO);
-        }*/
         List<NotificationDTO> notificationDTOS = new ArrayList<NotificationDTO>();
+        for (Notification notification : notifications) {
+            NotificationDTO notificationDTO = new NotificationDTO();
+            BeanUtils.copyProperties(notification, notificationDTO);
+            notificationDTO.setType(NotificationTypeEnum.nameOfType(notification.getType()));
+            notificationDTOS.add(notificationDTO);
+        }
         paginationDTO.setData(notificationDTOS);
         paginationDTO.setPagination(totalPage, page, size);
 
         return paginationDTO;
+    }
+
+    public Long unreadCount(Long userId) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(userId);
+        return notificationMapper.countByExample(notificationExample);
     }
 }
