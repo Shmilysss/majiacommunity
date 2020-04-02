@@ -57,7 +57,6 @@ public class CommentService {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
             commentMapper.insert(comment);
-
             // 创建通知
             createNotify(comment, dbComment.getCommentator(),  NotificationTypeEnum.REPLY_COMMENT);
         } else {
@@ -73,8 +72,6 @@ public class CommentService {
             // 创建通知
             createNotify(comment, question.getCreator(),  NotificationTypeEnum.REPLY_COMMENT);
         }
-
-
     }
 
     public List<CommentDTO> ListByTargetId(Long id, CommentTypeEnum type) {
@@ -107,7 +104,6 @@ public class CommentService {
             commentDTO.setUser(userMap.get(comment.getCommentator()));
             return commentDTO;
         }).collect(Collectors.toList());
-
         return commentDTOS;
     }
 
