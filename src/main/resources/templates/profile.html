@@ -17,7 +17,7 @@
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
             <!--我的问题-->
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'questions'}">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'questions'}">
                 <div class="media" th:each="question:${paginations.data}">
                     <div class="media-left">
                         <a href="#">
@@ -41,44 +41,19 @@
                 </div>
             </div>
             <!--最新回复-->
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'replies'}">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" th:if="${section == 'replies'}">
                 <div class="media" th:each="notification:${paginations.data}">
                     <div class="media-body">
-                        <h5 class="media-heading" th:text="${notification.notifierName+' '+notification.type+' '+notification.outerTitle}"></h5>
+                        <p class="media-heading">
+                        <span th:text="${notification.notifierName+' '+notification.typeName}"></span>
+                            <a th:href="@{'/notification/'+${notification.id}}"
+                               th:text="${notification.outerTitle}"></a>
+                            <span class="label label-danger" th:if="${notification.status == 0}">未读</span>
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li th:if="${paginations.showFirstPage}">
-                            <a th:href="@{/(page=1)}" aria-label="Previous">
-                                <span aria-hidden="true">&lt;&lt;</span>
-                            </a>
-                        </li>
-                        <li th:if="${paginations.showPrevious}">
-                            <a th:href="@{/(page=${paginations.page - 1})}" aria-label="Previous">
-                                <span aria-hidden="true">&lt;</span>
-                            </a>
-                        </li>
-                        <li th:each="page:${paginations.pages}" th:class="${paginations.page==page}? 'active' : ''">
-                            <a th:href="@{/(page=${page})}" th:text="${page}">
 
-                            </a>
-                        </li>
-                        <li th:if="${paginations.showNext}">
-                            <a th:href="@{/(page=${paginations.page + 1})}" aria-label="Previous">
-                                <span aria-hidden="true">&gt;</span>
-                            </a>
-                        </li>
-                        <li th:if="${paginations.showEndPage}">
-                            <a th:href="@{/(page=${paginations.totalPage})}" aria-label="Previous">
-                                <span aria-hidden="true">&gt;&gt;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group section">
@@ -91,6 +66,37 @@
                 </a>
             </div>
         </div>
+    </div>
+    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li th:if="${paginations.showFirstPage}">
+                    <a th:href="@{/(page=1)}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;&lt;</span>
+                    </a>
+                </li>
+                <li th:if="${paginations.showPrevious}">
+                    <a th:href="@{/(page=${paginations.page - 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+                <li th:each="page:${paginations.pages}" th:class="${paginations.page==page}? 'active' : ''">
+                    <a th:href="@{/(page=${page})}" th:text="${page}">
+
+                    </a>
+                </li>
+                <li th:if="${paginations.showNext}">
+                    <a th:href="@{/(page=${paginations.page + 1})}" aria-label="Previous">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li th:if="${paginations.showEndPage}">
+                    <a th:href="@{/(page=${paginations.totalPage})}" aria-label="Previous">
+                        <span aria-hidden="true">&gt;&gt;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 </body>

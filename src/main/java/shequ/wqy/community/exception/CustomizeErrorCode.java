@@ -13,6 +13,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     TYPE_WRONG(2005,"类型不正确"),
     COMMENT_NOT_FOUND(2006,"评论内容不存在"),
     CONTENT_IS_EMPTY(2007,"输入内容不能为空"),
+    READ_NOTIFICATION_FAIL(2008,"进入失败，中大奖了。"),
+    NOTIFICATION_NOT_FOUND(2009,"当前notification不存在或查询失败，请联系管理员"),
     ;
 
     @Override
