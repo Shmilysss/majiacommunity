@@ -20,6 +20,7 @@ public class IndexController {
                         @RequestParam(name = "search", required = false) String search) {
         PaginationDTO paginations = questionService.list(search,page,size);
         model.addAttribute("paginations", paginations);
+        model.addAttribute("search", search);
         return "index";
     }
 
