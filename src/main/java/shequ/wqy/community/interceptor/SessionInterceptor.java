@@ -34,7 +34,6 @@ public class SessionInterceptor implements HandlerInterceptor {
                     userExample.createCriteria()
                             .andTokenEqualTo(token);
                     List<User> userList = userMapper.selectByExample(userExample);
-//                    User user = userMapper.findByToken(token);
                     if (userList.size() != 0) {
                         //表中存在当前token，返回登录界面，将user写进session和cookie
                         request.getSession().setAttribute("user", userList.get(0));

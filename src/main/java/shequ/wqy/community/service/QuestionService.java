@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import shequ.wqy.community.dto.PaginationDTO;
 import shequ.wqy.community.dto.QuestionDTO;
+import shequ.wqy.community.dto.QuestionQueryDTO;
 import shequ.wqy.community.exception.CustomizeErrorCode;
 import shequ.wqy.community.exception.CustomizeException;
 import shequ.wqy.community.mapper.QuestionExMapper;
@@ -17,6 +18,7 @@ import shequ.wqy.community.model.QuestionExample;
 import shequ.wqy.community.model.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +34,16 @@ public class QuestionService {
     @Autowired
     private QuestionExMapper questionExMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
+    public PaginationDTO list(String search, Integer page, Integer size) {
+        if(StringUtils.isNotBlank(search)){
+            String[] content = StringUtils.split(search, " ");
+            search = Arrays.stream(content).collect(Collectors.joining("|"));
+        }
 
-        Integer totalCount = (int) questionMapper.countByExample(new QuestionExample());
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionExMapper.countBySearch(questionQueryDTO);
         Integer totalPage = new Integer(0);
         ;
         if (totalCount % size == 0) {
@@ -51,7 +60,10 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+//        selectBySearch
+        questionQueryDTO.setPage(page);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExMapper.selectBySearch(questionQueryDTO);
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
 
         PaginationDTO paginationDTO = new PaginationDTO();
