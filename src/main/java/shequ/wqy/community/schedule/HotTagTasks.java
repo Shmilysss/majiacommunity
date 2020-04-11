@@ -28,7 +28,7 @@ public class HotTagTasks {
     @Autowired
     private HotTagCache hotTagCache;
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 60000)
 //    @Scheduled(cron = "0 0 1 * * *") //每天凌晨1点
     public void hotTagSchedule() {
         //定时器任务，新的知识点

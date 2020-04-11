@@ -11,7 +11,7 @@
 </head>
 <script type="application/javascript">
     window.onload = function () {
-        if(window.localStorage.getItem("closable")){
+        if (window.localStorage.getItem("closable")) {
             window.close();
             window.localStorage.removeItem("closable");
         }
@@ -49,22 +49,22 @@
                         </a>
                     </li>
                     <li th:if="${paginations.showPrevious}">
-                        <a th:href="@{/(page=${paginations.page - 1},search=${search})}" aria-label="Previous">
+                        <a th:href="@{/(page=${paginations.page - 1},search=${search},tag=${tag})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
                     <li th:each="page:${paginations.pages}" th:class="${paginations.page==page}? 'active' : ''">
-                        <a th:href="@{/(page=${page},search=${search})}" th:text="${page}">
+                        <a th:href="@{/(page=${page},search=${search},tag=${tag})}" th:text="${page}">
 
-                    </a>
+                        </a>
                     </li>
                     <li th:if="${paginations.showNext}">
-                        <a th:href="@{/(page=${paginations.page + 1},search=${search})}" aria-label="Previous">
+                        <a th:href="@{/(page=${paginations.page + 1},search=${search},tag=${tag})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${paginations.showEndPage}">
-                        <a th:href="@{/(page=${paginations.totalPage},search=${search})}" aria-label="Previous">
+                        <a th:href="@{/(page=${paginations.totalPage},search=${search},tag=${tag})}" aria-label="Previous">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -72,7 +72,15 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-            <h3>热门话题</h3>
+            <h3>热门标签</h3>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="question-related">
+                    <li th:each="tag:${tags}">
+                        <a th:href="@{/(page=1,search=${search},tag=${tag})}" th:text="${tag}"></a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
