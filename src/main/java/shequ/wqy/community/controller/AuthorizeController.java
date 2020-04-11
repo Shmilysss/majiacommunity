@@ -1,5 +1,6 @@
 package shequ.wqy.community.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -7,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import shequ.wqy.community.dto.AccessTokenDTO;
 import shequ.wqy.community.dto.GithubUser;
-import shequ.wqy.community.mapper.UserMapper;
 import shequ.wqy.community.model.User;
 import shequ.wqy.community.provider.GithubProvider;
 import shequ.wqy.community.service.UserService;
@@ -22,6 +22,7 @@ import java.util.UUID;
  * Content：
  */
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -70,6 +71,7 @@ public class AuthorizeController {
             return "redirect:/";
         }else {
             //登录失败，返回登录页面,重新登录
+            log.error("登录失败，返回登录页面,重新登录!");
             return "redirect:/";
         }
     }

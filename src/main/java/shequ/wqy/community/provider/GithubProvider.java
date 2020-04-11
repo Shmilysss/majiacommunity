@@ -1,12 +1,14 @@
 package shequ.wqy.community.provider;
 
 import com.alibaba.fastjson.JSON;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Component;
 import shequ.wqy.community.dto.AccessTokenDTO;
 import shequ.wqy.community.dto.GithubUser;
 
 @Component
+@Slf4j
 public class GithubProvider {
     public String getAccessToken(AccessTokenDTO accessTokenDTO){
          MediaType mediaType = MediaType.get("application/json; charset=utf-8");
@@ -20,9 +22,9 @@ public class GithubProvider {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String string = response.body().string();
-            System.out.println("string11111="+string);
             String[] split = string.split("&");
             String token = split[0].split("=")[1];
+            log.info("token==="+token);
             return token;
         } catch (Exception e) {
             e.printStackTrace();
